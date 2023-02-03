@@ -1,0 +1,37 @@
+.Input {
+    margin: 0 0 1.5rem;
+    width: 100%;
+}
+
+.Input label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-bottom: 0.25rem;
+    color: #1d1d1f;
+    
+}
+
+.Input input {
+    border-radius: 5px;
+    border: 1px solid #39393D;
+    padding: 0 .5rem;
+    outline: none;
+    width: 100%;
+    min-height: 40px;
+    font-size: 1rem;
+}
+
+.Input input:focus {
+    border: 2px solid var(--primary-bg-col);
+}
+
+.Input input.has-error {
+    border: 1px solid red;
+}
+
+.Input .error {
+    font-size: 0.7rem;
+    color: red;
+    margin-top: 0.25rem;
+}
