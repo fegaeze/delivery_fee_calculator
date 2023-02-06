@@ -1,7 +1,12 @@
-import React, { FC } from 'react';
-import { InputProps } from './Input.types'
-import './Input.css';
+import React, { FC } from "react";
+import "./Input.css";
 
+interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
+    label: string, 
+    inputName: string, 
+    inputType: string, 
+    inputErrorMessage?: string
+}
 
 const Input: FC<InputProps> = React.forwardRef<HTMLInputElement, InputProps>(
     ({ label, inputName, inputType, inputErrorMessage, ...props }, ref) => {

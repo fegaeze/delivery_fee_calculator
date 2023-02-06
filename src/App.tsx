@@ -1,63 +1,22 @@
-import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import './App.css';
 import Input from './components/Input/Input';
 import useCalcDeliveryFee from "./hooks/useCalcDeliveryFee";
-
-
-const errorMsgs = {
-  requiredError: 'This field is required',
-  signError: 'Please fill in a number greater than 0',
-  minDateError: 'Date cannot be in the past',
-  typeError: {
-    number: 'Please fill in numbers only',
-    date: 'Please fill in appropriate data format'
-  }
-}
-
-const schema = yup.object({
-  cartValue: yup
-    .number()
-    .transform(value => (isNaN(value) ? undefined : value))
-    .positive(errorMsgs.signError)
-    .typeError(errorMsgs.typeError.number)
-    .required(errorMsgs.requiredError),
-  deliveryDistance: yup
-    .number()
-    .transform(value => (isNaN(value) ? undefined : value))
-    .positive(errorMsgs.signError)
-    .typeError(errorMsgs.typeError.number)
-    .required(errorMsgs.requiredError),
-  itemNum: yup
-    .number()
-    .transform(value => (isNaN(value) ? undefined : value))
-    .positive(errorMsgs.signError)
-    .typeError(errorMsgs.typeError.number)
-    .required(errorMsgs.requiredError),
-  orderTime: yup
-    .date()
-    .default(() => new Date())
-    .typeError(errorMsgs.typeError.date)
-}).required();
-
-type FormData = yup.InferType<typeof schema>;
+import { schema, DeliveryFeeParam } from "./utils/feeValidation";
 
 
 const App = () => {
 
-  const {deliveryFee, calculateFee, resetFee} = useCalcDeliveryFee();
+  const {deliveryFee, calculateFee} = useCalcDeliveryFee();
   
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<DeliveryFeeParam>({
     resolver: yupResolver(schema)
   });
 
   const onSubmit = handleSubmit((data) => {
-    const { cartValue, deliveryDistance, itemNum, orderTime } = data;
-    resetFee();
-
-    calculateFee(cartValue, deliveryDistance, itemNum, orderTime);
+    calculateFee(data);
     reset();
   });
 
@@ -65,7 +24,7 @@ const App = () => {
     <div className="App">
       <header className="App-header has-flex">
         <h1>Delivery Fee Calculator</h1>
-        {deliveryFee && <p>Delivery Fee: {deliveryFee} euros</p>}
+        {deliveryFee !== null && <p>Delivery Fee: {deliveryFee} €</p>}
       </header>
 
       <div className="App-content has-flex">
@@ -97,7 +56,6 @@ const App = () => {
           />
 
           <Input 
-            disabled
             label="Time" 
             inputType="datetime-local" 
             inputName="orderTime" 

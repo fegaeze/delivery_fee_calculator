@@ -1,5 +1,6 @@
 const constants = {
     SMALL_ORDER_MINIMUM: 10, // in euros
+    DISTANCE_DEFAULT: 1000, // in meters
     DISTANCE_DEFAULT_FEE: 200, // in cents
     DISTANCE_BENCHMARK: 500, // in meters
     FREE_DELIVERY_BENCHMARK: 100, // in euros
